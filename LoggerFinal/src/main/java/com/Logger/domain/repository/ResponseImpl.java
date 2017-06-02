@@ -1,3 +1,4 @@
+/*
 package com.Logger.domain.repository;
 
 import com.Logger.domain.model.Inventory;
@@ -23,13 +24,15 @@ public class ResponseImpl {
     }
 
     public List<Inventory> updateById(Long uniqueId, String status) {
-       /* Query query = Query.query(Criteria.where("uniqueId").is(uniqueId));
+       */
+/* Query query = Query.query(Criteria.where("uniqueId").is(uniqueId));
         Update update = new Update();
         update.set("status", status);
         update.getUpdateObject();
         Inventory result = mongoTemplate.findAndModify(query, update, Inventory.class);
         return result;
-*/      //DBCollection coll=mongoTemplate.getCollection("response");
+*//*
+      //DBCollection coll=mongoTemplate.getCollection("response");
         agg = newAggregation(
                 Aggregation.match(Criteria.where("uniqueId").is(uniqueId)),
                 //sort(Sort.Direction.ASC, "uniqueId"),
@@ -48,3 +51,4 @@ public class ResponseImpl {
 
 
 }
+*/

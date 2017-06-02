@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
@@ -27,11 +26,6 @@ public class Parser
     public static int getInt(String paramName, ObjectNode node) {
 
         return node.get(paramName) != null ? node.get(paramName).intValue() : EMPTY_INT;
-    }
-
-    public static String getStatus(String paramName, ObjectNode node) {
-
-        return node.get(paramName) != null ? node.get(paramName).textValue() : "N/A";
     }
 
     public static TypeValue getTypeValue(String reservationId ,String uniqueId, ObjectNode node) {

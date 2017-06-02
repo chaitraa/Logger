@@ -1,15 +1,13 @@
 package com.Logger.utils;
 
 import com.Logger.domain.model.*;
+import com.Logger.domain.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,9 +19,14 @@ public class ParserUtility {
     @Autowired
     Parser parser;
 
+    @Autowired
+    UserRepository userRepository;
+
     List<Inventory> inventoryList;
 
     List<Price> priceList;
+
+    List<UserInfo> userInfoList;
 
     public List<Inventory> createInventoryObjectNode(List<ObjectNode> inventoryNode) {
         inventoryList = new LinkedList<>();
@@ -33,7 +36,6 @@ public class ParserUtility {
 
             inventory.createdDate = parser.getCurrentDate();
             inventory.uniqueId = parser.getLong("uniqueId", node);
-            //inventory.status = parser.getStatus("status", node);
             inventory.reservationId = parser.getLong("reservationId", node);
             inventory.revisionId = parser.getLong("revisionId", node);
             inventory.type = parser.getTypeValue("revisionId", "reservationId", node);
@@ -77,7 +79,7 @@ public class ParserUtility {
             price.userId = parser.getLong("userId", node);
             price.userName = parser.getString("userName", node);
             price.createdDate = parser.getCurrentDate();
-            price.uniqueId=parser.getLong("uniqueId",node);
+            price.uniqueId = parser.getLong("uniqueId", node);
 
             ArrayNode hotelsNode = (ArrayNode) node.get("hotels");
             List<Hotels> hotels = new LinkedList<>();
@@ -114,13 +116,13 @@ public class ParserUtility {
                             pricesObject.extraAdult = pricesNode.get("Extra Adult").decimalValue();
                             pricesObject.extraChild = pricesNode.get("Extra Child").decimalValue();
 
-                           priceDetail.price=pricesObject;
+                            priceDetail.price = pricesObject;
                             priceDetails.add(priceDetail);
                         }
                         ratePlan.priceDetails = priceDetails;
                         ratePlans.add(ratePlan);
                     }
-                    room.rateplans=ratePlans;
+                    room.rateplans = ratePlans;
                     rooms.add(room);
 
                 }
@@ -133,3 +135,23 @@ public class ParserUtility {
         return priceList;
     }
 }
+  /*  public List<UserInfo> createUserInfoNode(ObjectNode userNode) throws MongoException{
+        userInfoList=new LinkedList<>();
+        UserInfo userInfo=new UserInfo();
+        try {
+            UserInfo userInfoExists = userRepository.findByUserName(userNode.get("userName").asText());
+            if (userInfoExists == null) {
+                userInfo.userName = parser.getString("userName", userNode);
+                userInfo.password = parser.getString("password", userNode);
+                userInfo.firstName = parser.getString("firstName", userNode);
+                userInfo.lastName = parser.getString("lastName", userNode);
+                userInfo.emailId = parser.getString("emailId", userNode);
+                userInfoList.add(userInfo);
+            }
+        }catch(Exception mongoProblem)
+        {
+            throw new MongoException(mongoProblem.getMessage(),mongoProblem);
+        }
+        return userInfoList;
+    }
+}*/
